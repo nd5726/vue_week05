@@ -21,14 +21,14 @@
                     <div class="product-image w-full bg-cover" :style="{backgroundImage:`url( ${product.imageUrl} )`}"></div>
                     <p class="font-bold text-gray-700 text-xl py-3">{{ product.title }}</p>
                     <div class="flex justify-between">
-                        <button type="button" class="bg-gray-500  text-white focus:ring-4 focus:ring-gray-300 rounded border border-gray-200 text-sm font-bold px-4 py-2 focus:z-10  hover:bg-gray-600" @click="viewDetail">詳細介紹</button>
+                        <button type="button" class="bg-gray-500  text-white focus:ring-4 focus:ring-gray-300 rounded border border-gray-200 text-sm font-bold px-4 py-2 focus:z-10  hover:bg-gray-600" @click="viewDetail(product.id)">詳細介紹</button>
                         <button type="button" class="bg-blue-500  text-white focus:ring-4 focus:ring-gray-300 rounded border border-gray-200 text-sm font-bold px-4 py-2 focus:z-10  hover:bg-blue-600">加入購物車</button>
                     </div>
                 </div>
                 
             </li>
         </ul>
-        <product-detail ref="detailModal"></product-detail>
+        <product-detail ref="detailModal" :id="productID"></product-detail>
     </div>
     
 </body>
@@ -45,21 +45,23 @@
                 apiPath : 'nd5726-hexschool',
                 tempProduct:[],
                 productList : [],
+                productID : '',
             }
         },
         methods :{
             getProduct(){
                 axios.get(`${this.apiUrl}/api/${this.apiPath}/products/all`)
                 .then((res)=>{
-                    console.log(res.data);
+                    //console.log(res.data);
                     this.productList = res.data.products;
                 })
                 .catch((err)=>{
                     
                 })
             },
-            viewDetail(){
+            viewDetail(id){
                 this.$refs.detailModal.open_detail = true ;
+                this.productID = id ; 
             }
         },
         mounted(){
