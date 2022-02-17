@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-loading-overlay@5.0.3/dist/vue-loading.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/vue-loading-overlay@5.0.3/dist/vue-loading.css" rel="stylesheet">
     <title>Document</title>
     <style>
         .product-image{
@@ -29,16 +32,17 @@
             </li>
         </ul>
         <product-detail ref="detailModal" :id="productID"></product-detail>
+        <loading v-model:active="isLoading" />
     </div>
     
 </body>
 
 
 <script type="module">
-    import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.26/vue.esm-browser.min.js';
+    // import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.26/vue.esm-browser.min.js';
     import  productDetail  from './product-detail.js';
 
-    const app = createApp({
+    const app = Vue.createApp({
         data(){
             return{
                 apiUrl : 'https://vue3-course-api.hexschool.io/v2' ,
@@ -46,6 +50,7 @@
                 tempProduct:[],
                 productList : [],
                 productID : '',
+                isLoading :false
             }
         },
         methods :{
@@ -60,15 +65,24 @@
                 })
             },
             viewDetail(id){
-                this.$refs.detailModal.open_detail = true ;
-                this.productID = id ; 
+                this.productID = id ;
+                this.isLoading = true ;
+                setTimeout(()=>{
+                    this.$refs.detailModal.open_detail = true ;
+                    this.isLoading = false ;
+                },1000)
             }
         },
         mounted(){
             this.getProduct();
+            console.log(VueLoading);
         }
     })
     app.component('productDetail', productDetail );
+    app.component('loading', VueLoading.Component)
     app.mount('#app');
+
 </script>
+
+
 </html>
