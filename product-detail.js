@@ -4,7 +4,8 @@ export default {
             apiUrl : 'https://vue3-course-api.hexschool.io/v2' ,
             apiPath : 'nd5726-hexschool',
             open_detail : false,
-            tempProduct : []
+            tempProduct : [],
+            qty : 1
         }
     },
     props : ['id'],
@@ -51,6 +52,11 @@ export default {
                     <p class="text-gray-500 text-base font-bold my-2">{{ tempProduct.description }}</p>
                     <p class="text-gray-500 text-base font-bold my-2">{{ tempProduct.content }}</p>
                     <p class="text-slate-600 text-lg font-bold mr-4">售價 : {{ tempProduct.price }} /<span class="line-through ml-2">{{ tempProduct.origin_price }}</span> {{ tempProduct.unit }}</p>
+                    <div class="flex mt-8">
+                        <input type="number" v-model="qty" class="w-40 p-2 border rounded">
+                        <button type="button" @click="$emit('add-to-cart', tempProduct.id ,qty)"  class="bg-blue-500  text-white focus:ring-4 focus:ring-gray-300 rounded border border-gray-200 text-sm font-bold px-4 py-2  hover:bg-blue-600" >加入購物車</button>
+                    </div>
+                    
                 </div>
                 
             </div>
